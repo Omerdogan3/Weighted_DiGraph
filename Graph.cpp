@@ -291,8 +291,7 @@ void Graph::shortestPaths(const string& src) const
 
         for (auto i : vertexList[u].edges)
         {
-            string s = i.second.getLabel();
-            int v = getIndex(s);
+            int v = getIndex(i.second.getLabel());
             int wt = i.first;
 
             if ((!visited[v]) &&
