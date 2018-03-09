@@ -270,18 +270,17 @@ void Graph::bfs(const string& src, const string& dest) const
 
 void Graph::shortestPaths(const string& src) const
 {
-    priority_queue< pair<int,int>,
-                    vector<pair<int,int> >,
-                    greater<pair<int,int> > > pq;
+    typedef pair<int,int> vtx;
+    priority_queue<vtx,
+                   vector<vtx>,
+                   greater<vtx> > pq;
 
     vector<int> dist(size, INF);
-    vector<bool> visited(size, false);
 
     int src_idx = getIndex(src);
     if (src_idx == -1) return;
 
     dist[src_idx] = 0;
-    visited[src_idx] = true;
     pq.push(make_pair(0, src_idx));
 
     while (!pq.empty())
@@ -294,11 +293,9 @@ void Graph::shortestPaths(const string& src) const
             int v = getIndex(i.second.getLabel());
             int wt = i.first;
 
-            if ((!visited[v]) &&
-                (dist[v] > dist[u] + wt))
+            if (dist[v] > dist[u] + wt)
             {
                 dist[v] = dist[u] + wt;
-                visited[v] = true;
                 pq.push(make_pair(dist[v], v));
             }
         }
@@ -308,7 +305,7 @@ void Graph::shortestPaths(const string& src) const
     {
         cout << '\t' << vertexList[i].getLabel();
         if (dist[i] == INF)
-            cout << '\t' << "INF" << endl;
+            cout << '\t' << '-' << endl;
         else
             cout << '\t' << dist[i] << endl;
     }
